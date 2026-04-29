@@ -63,7 +63,7 @@ jobs:
       CXX: ${{ matrix.cxx }}
       FIXME__LZ4_CI_IGNORE : ' echo Error.  But we ignore it for now.'
     steps:
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # https://github.com/actions/checkout v4.2.2
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # https://github.com/actions/checkout v6.0.2
 
     - name: apt-get install
       run: |
@@ -152,7 +152,7 @@ jobs:
     name: Fullbench
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # https://github.com/actions/checkout v4.2.2
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # https://github.com/actions/checkout v6.0.2
 
     - name: apt-get install
       run: |
@@ -173,7 +173,7 @@ jobs:
     name: Fuzzer test
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # https://github.com/actions/checkout v4.2.2
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # https://github.com/actions/checkout v6.0.2
 
     - name: apt-get install
       run: |
@@ -194,7 +194,7 @@ jobs:
     name: LZ4 Makefile - support for standard variables
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # https://github.com/actions/checkout v4.2.2
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # https://github.com/actions/checkout v6.0.2
 
     - name: check propagation of standard variables
       run: make test_stdvars V=1
@@ -204,7 +204,7 @@ jobs:
     name: LZ4 versions test
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # https://github.com/actions/checkout v4.2.2
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # https://github.com/actions/checkout v6.0.2
 
     - name: apt-get install
       run: |
@@ -219,7 +219,7 @@ jobs:
     name: LZ4 inter-versions ABI compatibility test
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # https://github.com/actions/checkout v4.2.2
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # https://github.com/actions/checkout v6.0.2
 
     - name: apt-get install
       run: |
@@ -234,7 +234,7 @@ jobs:
     name: LZ4 frame test
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # https://github.com/actions/checkout v4.2.2
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # https://github.com/actions/checkout v6.0.2
 
     - name: apt-get install
       run: |
@@ -251,7 +251,7 @@ jobs:
     name: test different values of LZ4_MEMORY_USAGE
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # https://github.com/actions/checkout v4.2.2
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # https://github.com/actions/checkout v6.0.2
     - name: LZ4_MEMORY_USAGE
       run: make V=1 -C tests test-compile-with-lz4-memory-usage
 
@@ -260,7 +260,7 @@ jobs:
     name: Custom LZ4_DISTANCE_MAX
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # https://github.com/actions/checkout v4.2.2
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # https://github.com/actions/checkout v6.0.2
     - name: custom LZ4_DISTANCE_MAX; test LZ4_USER_MEMORY_FUNCTIONS
       run: |
         CPPFLAGS='-DLZ4_DISTANCE_MAX=8000' make V=1 check
@@ -276,7 +276,7 @@ jobs:
     name: Test lz4 compression on a block device
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # https://github.com/actions/checkout v4.2.2
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # https://github.com/actions/checkout v6.0.2
     - name: create a block device, compress it with lz4 # alternative : blindly use /dev/loop0, seems to always exist
       run: |
         make lz4
@@ -303,7 +303,7 @@ jobs:
     name: make cppcheck
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # https://github.com/actions/checkout v4.2.2
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # https://github.com/actions/checkout v6.0.2
     - name: apt-get install
       run: |
         sudo apt-get update
@@ -322,7 +322,7 @@ jobs:
     name: make staticAnalyze
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # https://github.com/actions/checkout v4.2.2
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # https://github.com/actions/checkout v6.0.2
     - name: apt-get install
       run: |
         sudo apt-get update
@@ -344,7 +344,7 @@ jobs:
     name: valgrind
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # https://github.com/actions/checkout v4.2.2
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # https://github.com/actions/checkout v6.0.2
     - name: apt-get install
       run: |
         sudo apt-get update
@@ -363,7 +363,7 @@ jobs:
     name: Linux x64 ubsan
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # https://github.com/actions/checkout v4.2.2
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # https://github.com/actions/checkout v6.0.2
 
     - name: ubsan
       run: |
@@ -374,7 +374,7 @@ jobs:
     name: Linux x86 ubsan
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # https://github.com/actions/checkout v4.2.2
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # https://github.com/actions/checkout v6.0.2
 
     - name: apt-get install
       run: |
@@ -392,7 +392,7 @@ jobs:
     name: Linux x64 ASAN
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # https://github.com/actions/checkout v4.2.2
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # https://github.com/actions/checkout v6.0.2
 
     - name: setup
       run: sudo sysctl -w vm.mmap_min_addr=4096
@@ -410,7 +410,7 @@ jobs:
     name: Linux x64 MSAN
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # https://github.com/actions/checkout v4.2.2
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # https://github.com/actions/checkout v6.0.2
 
     - name: check lz4
       run: make clean; CC=clang CFLAGS=-fsanitize=memory LDFLAGS=-fsanitize=memory make -j check V=1
@@ -425,7 +425,7 @@ jobs:
     name: Linux x64 TSAN
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # https://github.com/actions/checkout v4.2.2
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # https://github.com/actions/checkout v6.0.2
 
     - name: lz4 cli
       run: make clean; CC=clang CPPFLAGS="-fsanitize=thread" make -j -C tests test-lz4 V=1
@@ -435,7 +435,7 @@ jobs:
     name: lint unicode in ./lib/, ./tests/ and ./programs/
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # https://github.com/actions/checkout v4.2.2
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # https://github.com/actions/checkout v6.0.2
     - name: unicode lint
       run: bash ./tests/unicode_lint.sh
 
@@ -443,7 +443,7 @@ jobs:
     name: make examples
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # https://github.com/actions/checkout v4.2.2
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # https://github.com/actions/checkout v6.0.2
     - name: apt-get install
       run: |
         sudo apt-get update
@@ -528,7 +528,7 @@ jobs:
       XEMU: ${{ matrix.xemu }}
       MAKEVAR: ${{ matrix.makevar }}
     steps:
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # https://github.com/actions/checkout v4.2.2
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # https://github.com/actions/checkout v6.0.2
 
     - name: apt-get install
       run: |
@@ -562,7 +562,7 @@ jobs:
     name: macOS
     runs-on: macos-latest
     steps:
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # https://github.com/actions/checkout v4.2.2
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # https://github.com/actions/checkout v6.0.2
 
     - name: Environment info
       run: |
@@ -601,7 +601,7 @@ jobs:
           { os: windows-2022, build_path: ".\\build\\VS2022" },
         ]
     steps:
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # https://github.com/actions/checkout v4.2.2
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # https://github.com/actions/checkout v6.0.2
 
     - name: Build ${{ matrix.system.os }}, Win32
       # Switching to debug mode, since vs2022 optimizations seem to introduce a bug since July 2024
@@ -645,7 +645,7 @@ jobs:
     name: Meson + Ninja
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # https://github.com/actions/checkout v4.2.2
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # https://github.com/actions/checkout v6.0.2
     - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # https://github.com/actions/setup-python v5.6.0
       with:
         python-version: '3.x'
@@ -696,7 +696,7 @@ jobs:
     name: git version tag checking for release
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # https://github.com/actions/checkout v4.2.2
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # https://github.com/actions/checkout v6.0.2
     - name: make -C tests checkTag
       if: startsWith(github.ref, 'refs/tags/v')   # If git tag name starts with 'v'
       run: |
@@ -721,7 +721,7 @@ jobs:
 
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # https://github.com/actions/checkout v4.2.2
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # https://github.com/actions/checkout v6.0.2
 
     - name: init
       run: |
