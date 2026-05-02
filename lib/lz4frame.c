@@ -167,19 +167,21 @@ static int g_debuglog_enable = 1;
 /*-************************************
 *  Basic Types
 **************************************/
-#if !defined (__VMS) && (defined (__cplusplus) || (defined (__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L) /* C99 */) )
-# include <stdint.h>
-  typedef  uint8_t BYTE;
-  typedef uint16_t U16;
-  typedef uint32_t U32;
-  typedef  int32_t S32;
-  typedef uint64_t U64;
-#else
-  typedef unsigned char       BYTE;
-  typedef unsigned short      U16;
-  typedef unsigned int        U32;
-  typedef   signed int        S32;
-  typedef unsigned long long  U64;
+#ifndef LZ4_SRC_INCLUDED
+# if !defined (__VMS) && (defined (__cplusplus) || (defined (__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L) /* C99 */) )
+#   include <stdint.h>
+    typedef  uint8_t BYTE;
+    typedef uint16_t U16;
+    typedef uint32_t U32;
+    typedef  int32_t S32;
+    typedef uint64_t U64;
+# else
+    typedef unsigned char      BYTE;
+    typedef unsigned short     U16;
+    typedef unsigned int       U32;
+    typedef   signed int       S32;
+    typedef unsigned long long U64;
+# endif
 #endif
 
 
@@ -539,9 +541,16 @@ LZ4F_CDict*
 LZ4F_createCDict_advanced(LZ4F_CustomMem cmem, const void* dictBuffer, size_t dictSize)
 {
     const char* dictStart = (const char*)dictBuffer;
-    LZ4F_CDict* const cdict = (LZ4F_CDict*)LZ4F_malloc(sizeof(*cdict), cmem);
+    LZ4F_CDict* cdict = NULL;
+
     DEBUGLOG(4, "LZ4F_createCDict_advanced");
-    if (!cdict) return NULL;
+
+    if (!dictStart)
+        return NULL;
+    cdict = (LZ4F_CDict*)LZ4F_malloc(sizeof(*cdict), cmem);
+    if (!cdict)
+        return NULL;
+
     cdict->cmem = cmem;
     if (dictSize > 64 KB) {
         dictStart += dictSize - 64 KB;
@@ -684,10 +693,17 @@ static int ctxTypeID_to_size(int ctxTypeID) {
     }
 }
 
+size_t LZ4F_cctx_size(const LZ4F_cctx* cctx) {
+    if (cctx == NULL) {
+        return 0;
+    }
+    return sizeof(*cctx) + cctx->maxBufferSize + ctxTypeID_to_size(cctx->lz4CtxAlloc);
+}
+
 /* LZ4F_compressBegin_internal()
  * Note: only accepts @cdict _or_ @dictBuffer as non NULL.
  */
-size_t LZ4F_compressBegin_internal(LZ4F_cctx* cctx,
+static size_t LZ4F_compressBegin_internal(LZ4F_cctx* cctx,
                           void* dstBuffer, size_t dstCapacity,
                           const void* dictBuffer, size_t dictSize,
                           const LZ4F_CDict* cdict,
@@ -826,7 +842,7 @@ size_t LZ4F_compressBegin(LZ4F_cctx* cctx,
  * Hidden implementation,
  * employed for multi-threaded compression
  * when frame defines linked blocks */
-size_t LZ4F_compressBegin_usingDictOnce(LZ4F_cctx* cctx,
+static size_t LZ4F_compressBegin_usingDictOnce(LZ4F_cctx* cctx,
                           void* dstBuffer, size_t dstCapacity,
                           const void* dict, size_t dictSize,
                           const LZ4F_preferences_t* preferencesPtr)
@@ -1324,6 +1340,15 @@ LZ4F_errorCode_t LZ4F_freeDecompressionContext(LZ4F_dctx* dctx)
     return result;
 }
 
+size_t LZ4F_dctx_size(const LZ4F_dctx* dctx) {
+    if (dctx == NULL) {
+        return 0;
+    }
+    return sizeof(*dctx)
+         + (dctx->tmpIn != NULL ? dctx->maxBlockSize + BFSize : 0)
+         + (dctx->tmpOutBuffer != NULL ? dctx->maxBufferSize : 0);
+}
+
 
 /*==---   Streaming Decompression operations   ---==*/
 void LZ4F_resetDecompressionContext(LZ4F_dctx* dctx)
@@ -1488,6 +1513,10 @@ LZ4F_errorCode_t LZ4F_getFrameInfo(LZ4F_dctx* dctx,
                                    LZ4F_frameInfo_t* frameInfoPtr,
                              const void* srcBuffer, size_t* srcSizePtr)
 {
+    assert(dctx != NULL);
+    RETURN_ERROR_IF(frameInfoPtr == NULL, parameter_null);
+    RETURN_ERROR_IF(srcSizePtr == NULL, parameter_null);
+
     LZ4F_STATIC_ASSERT(dstage_getFrameHeader < dstage_storeFrameHeader);
     if (dctx->dStage > dstage_storeFrameHeader) {
         /* frameInfo already decoded */
